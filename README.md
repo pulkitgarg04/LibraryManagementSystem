@@ -40,6 +40,8 @@ Ensure you have the following installed:
     java LibraryManagementSystem
     ```
 
+---
+
 ## Usage
 1. Add Book: Input the book name, author, and genre to add a new book.
 2. Issue Book: Provide the book name, student name, and student ID to issue a book.
@@ -47,12 +49,16 @@ Ensure you have the following installed:
 4. Display Books: View all books in the library, including issued and available books.
 5. Exit: Close the application.
 
+---
+
 ## File Storage
 - CSV File: Data is stored in books.csv in the following format:
 ```csv
 name,author,genre,isIssued,studentName,studentId,issueDate,returnDate
 ```
 - The system reads this file at startup and writes to it upon any changes.
+
+---
 
 ## Contribution
 Feel free to fork the repository and submit pull requests to enhance the functionality of the script.
@@ -96,6 +102,8 @@ Feel free to fork the repository and submit pull requests to enhance the functio
 - Click on the Pull Requests tab.
 - Click New Pull Request and choose your branch from your fork as the source.
 - Provide a descriptive title and explanation of your changes.
+
+---
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
