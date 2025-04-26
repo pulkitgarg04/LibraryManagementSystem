@@ -68,33 +68,34 @@ public class LibraryManagementSystem {
     private static ArrayList<Book> books = new ArrayList<>();
     private static final String CSV_FILE_NAME = "books.csv";
     private static final String CSV_HEADER = "Name,Author,Genre,IsIssued,StudentName,StudentID,IssueDate,ReturnDate";
+    private static HashMap<String, Book> bookMap = new HashMap<>();
 
     public void addBook(String name, String author, String genre) {
-        books.add(new Book(name, author, genre));
+        Book book = new Book(name, author, genre);
+        books.add(book);
+        bookMap.put(name.toLowerCase(), book);
         System.out.println("Book added successfully: " + name);
         saveToCsv();
     }
 
     public void issueBook(String bookName, String studentName, String studentId) {
-        for (Book book : books) {
-            if (book.name.equalsIgnoreCase(bookName) && !book.isIssued) {
-                book.issueBook(studentName, studentId);
-                saveToCsv();
-                return;
-            }
+        Book book = binarySearchBook(bookName);
+        if (book != null && !book.isIssued) {
+            book.issueBook(studentName, studentId);
+            saveToCsv();
+        } else {
+            System.out.println("Book is either not available or already issued.");
         }
-        System.out.println("Book is either not available or already issued.");
     }
 
     public void returnBook(String bookName) {
-        for (Book book : books) {
-            if (book.name.equalsIgnoreCase(bookName) && book.isIssued) {
-                book.returnBook();
-                saveToCsv();
-                return;
-            }
+        Book book = binarySearchBook(bookName);
+        if (book != null && book.isIssued) {
+            book.returnBook();
+            saveToCsv();
+        } else {
+            System.out.println("No issued book found with this name.");
         }
-        System.out.println("No issued book found with this name.");
     }
 
     public void displayBooks() {
@@ -105,6 +106,53 @@ public class LibraryManagementSystem {
         for (Book book : books) {
             book.displayBook();
         }
+    }
+
+    private void sortBooks() {
+        books = mergeSort(books);
+    }
+
+    private ArrayList<Book> mergeSort(ArrayList<Book> list) {
+        if (list.size() <= 1) return list;
+
+        int mid = list.size() / 2;
+        ArrayList<Book> left = mergeSort(new ArrayList<>(list.subList(0, mid)));
+        ArrayList<Book> right = mergeSort(new ArrayList<>(list.subList(mid, list.size())));
+
+        return merge(left, right);
+    }
+
+    private ArrayList<Book> merge(ArrayList<Book> left, ArrayList<Book> right) {
+        ArrayList<Book> result = new ArrayList<>();
+        int i = 0, j = 0;
+
+        while (i < left.size() && j < right.size()) {
+            if (left.get(i).name.compareToIgnoreCase(right.get(j).name) <= 0) {
+                result.add(left.get(i++));
+            } else {
+                result.add(right.get(j++));
+            }
+        }
+        while (i < left.size()) result.add(left.get(i++));
+        while (j < right.size()) result.add(right.get(j++));
+        return result;
+    }
+
+    private Book binarySearchBook(String name) {
+        sortBooks();
+        int left = 0;
+        int right = books.size() - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            Book midBook = books.get(mid);
+            int cmp = midBook.name.compareToIgnoreCase(name);
+
+            if (cmp == 0) return midBook;
+            else if (cmp < 0) left = mid + 1;
+            else right = mid - 1;
+        }
+        return null;
     }
 
     private void saveToCsv() {
@@ -122,7 +170,7 @@ public class LibraryManagementSystem {
 
     private void loadFromCsv() {
         try (BufferedReader reader = new BufferedReader(new FileReader(CSV_FILE_NAME))) {
-            String line = reader.readLine(); // Skipping the header line
+            String line = reader.readLine();
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",", -1);
                 Book book = new Book(parts[0].replace("\"", ""), parts[1].replace("\"", ""), parts[2].replace("\"", ""));
@@ -132,6 +180,7 @@ public class LibraryManagementSystem {
                 book.issueDate = parts[6].replace("\"", "").isEmpty() ? null : parts[6].replace("\"", "");
                 book.returnDate = parts[7].replace("\"", "").isEmpty() ? null : parts[7].replace("\"", "");
                 books.add(book);
+                bookMap.put(book.name.toLowerCase(), book);
             }
         } catch (FileNotFoundException e) {
             System.out.println("No previous data found. Starting fresh.");
