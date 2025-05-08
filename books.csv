@@ -1,13 +1,21 @@
-Name,Author,Genre,IsIssued,StudentName,StudentID,IssueDate,ReturnDate
-"The Catcher in the Rye","J.D. Salinger","Fiction","true","Pulkit Garg","2310990001","Fri Mar 14 12:00:00 2025","Fri Mar 21 12:00:00 2025"
-"To Kill a Mockingbird","Harper Lee","Classic","false","","","",""
-"1984","George Orwell","Dystopian","true","Aryan Bansal","2310990002","Thu Mar 13 10:00:00 2025","Thu Mar 20 10:00:00 2025"
-"Pride and Prejudice","Jane Austen","Romance","true","Ishan Kumar","2310990003","Fri Mar 15 15:00:00 2025","Fri Mar 22 15:00:00 2025"
-"The Great Gatsby","F. Scott Fitzgerald","Classic","true","Abhi","2310990004","Fri Mar 14 09:00:00 2025","Fri Mar 21 09:00:00 2025"
-"Moby Dick","Herman Melville","Adventure","true","Rohan","2310990005","Thu Mar 13 08:00:00 2025","Thu Mar 20 08:00:00 2025"
-"War and Peace","Leo Tolstoy","Historical Fiction","false","","","",""
-"The Alchemist","Paulo Coelho","Fantasy","true","Parth","2310990006","Fri Mar 14 18:00:00 2025","Fri Mar 21 18:00:00 2025"
-"Crime and Punishment","Fyodor Dostoevsky","Mystery","false","","","",""
-"Brave New World","Aldous Huxley","Sci-Fi","true","Anmol","2310990007","Fri Mar 15 20:00:00 2025","Fri Mar 22 20:00:00 2025"
-"The Hobbit","J.R.R. Tolkien","Fantasy","false","","","",""
-"The Martian","Andy Weir","Science Fiction","false","","","",""
+Book Name,Author,Genre,Issued,Student Name,Student ID,Issue Date,Return Date
+The Great Gatsby,F. Scott Fitzgerald,Fiction,false,,,,
+1984,George Orwell,Dystopian,false,,,,
+To Kill a Mockingbird,Harper Lee,Fiction,false,,,,
+Pride and Prejudice,Jane Austen,Romance,false,,,,
+The Catcher in the Rye,J.D. Salinger,Fiction,false,,,,
+Moby Dick,Herman Melville,Adventure,false,,,,
+War and Peace,Leo Tolstoy,Historical,false,,,,
+The Hobbit,J.R.R. Tolkien,Fantasy,false,,,,
+Crime and Punishment,Fyodor Dostoevsky,Crime,false,,,,
+The Alchemist,Paulo Coelho,Fantasy,false,,,,
+Brave New World,Aldous Huxley,Dystopian,false,,,,
+The Road,Cormac McCarthy,Post-Apocalyptic,true,Anmol Tuteja,2310990115,Thu May 08 17:22:24 IST 2025,
+Harry Potter and the Sorcerer's Stone,J.K. Rowling,Fantasy,false,,,,
+The Lord of the Rings,J.R.R. Tolkien,Fantasy,false,,,,
+Jane Eyre,Charlotte Brontë,Fiction,false,,,,
+The Odyssey,Homer,Classic,false,,,,
+Don Quixote,Miguel de Cervantes,Classic,true,Pulkit Garg,2310990940,Thu May 08 17:21:26 IST 2025,
+Les Misérables,Victor Hugo,Historical,false,,,,
+A Tale of Two Cities,Charles Dickens,Historical,false,,,,
+Wuthering Heights,Emily Brontë,Gothic,false,,,,

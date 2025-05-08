@@ -53,46 +53,41 @@ class Book {
             System.out.println("Last Return Date: " + returnDate);
         }
     }
-
-    public String toCsvFormat() {
-        return String.format("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"",
-                name, author, genre, isIssued,
-                studentName != null ? studentName : "",
-                studentId != null ? studentId : "",
-                issueDate != null ? issueDate : "",
-                returnDate != null ? returnDate : "");
-    }
 }
 
 public class LibraryManagementSystem {
+    private static final String FILENAME = "books.csv";
+    private static final String ADMIN_USERNAME = "admin";
+    private static final String ADMIN_PASSWORD = "password123";
+
     private static ArrayList<Book> books = new ArrayList<>();
-    private static final String CSV_FILE_NAME = "books.csv";
-    private static final String CSV_HEADER = "Name,Author,Genre,IsIssued,StudentName,StudentID,IssueDate,ReturnDate";
-    private static HashMap<String, Book> bookMap = new HashMap<>();
+
+    public LibraryManagementSystem() {
+        loadBooksFromCSV();
+    }
 
     public void addBook(String name, String author, String genre) {
         Book book = new Book(name, author, genre);
         books.add(book);
-        bookMap.put(name.toLowerCase(), book);
         System.out.println("Book added successfully: " + name);
-        saveToCsv();
+        exportBooksToCSV();
     }
 
     public void issueBook(String bookName, String studentName, String studentId) {
-        Book book = binarySearchBook(bookName);
+        Book book = findBook(bookName);
         if (book != null && !book.isIssued) {
             book.issueBook(studentName, studentId);
-            saveToCsv();
+            exportBooksToCSV();
         } else {
             System.out.println("Book is either not available or already issued.");
         }
     }
 
     public void returnBook(String bookName) {
-        Book book = binarySearchBook(bookName);
+        Book book = findBook(bookName);
         if (book != null && book.isIssued) {
             book.returnBook();
-            saveToCsv();
+            exportBooksToCSV();
         } else {
             System.out.println("No issued book found with this name.");
         }
@@ -108,98 +103,110 @@ public class LibraryManagementSystem {
         }
     }
 
-    private void sortBooks() {
-        books = mergeSort(books);
-    }
-
-    private ArrayList<Book> mergeSort(ArrayList<Book> list) {
-        if (list.size() <= 1) return list;
-
-        int mid = list.size() / 2;
-        ArrayList<Book> left = mergeSort(new ArrayList<>(list.subList(0, mid)));
-        ArrayList<Book> right = mergeSort(new ArrayList<>(list.subList(mid, list.size())));
-
-        return merge(left, right);
-    }
-
-    private ArrayList<Book> merge(ArrayList<Book> left, ArrayList<Book> right) {
-        ArrayList<Book> result = new ArrayList<>();
-        int i = 0, j = 0;
-
-        while (i < left.size() && j < right.size()) {
-            if (left.get(i).name.compareToIgnoreCase(right.get(j).name) <= 0) {
-                result.add(left.get(i++));
-            } else {
-                result.add(right.get(j++));
+    private Book findBook(String name) {
+        for (Book book : books) {
+            if (book.name.equalsIgnoreCase(name)) {
+                return book;
             }
-        }
-        while (i < left.size()) result.add(left.get(i++));
-        while (j < right.size()) result.add(right.get(j++));
-        return result;
-    }
-
-    private Book binarySearchBook(String name) {
-        sortBooks();
-        int left = 0;
-        int right = books.size() - 1;
-
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            Book midBook = books.get(mid);
-            int cmp = midBook.name.compareToIgnoreCase(name);
-
-            if (cmp == 0) return midBook;
-            else if (cmp < 0) left = mid + 1;
-            else right = mid - 1;
         }
         return null;
     }
 
-    private void saveToCsv() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(CSV_FILE_NAME))) {
-            writer.write(CSV_HEADER);
-            writer.newLine();
+    public void exportBooksToCSV() {
+        try (PrintWriter writer = new PrintWriter(new File(FILENAME))) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Book Name,Author,Genre,Issued,Student Name,Student ID,Issue Date,Return Date\n");
             for (Book book : books) {
-                writer.write(book.toCsvFormat());
-                writer.newLine();
+                sb.append(book.name).append(",");
+                sb.append(book.author).append(",");
+                sb.append(book.genre).append(",");
+                sb.append(book.isIssued).append(",");
+                sb.append(book.studentName != null ? book.studentName : "").append(",");
+                sb.append(book.studentId != null ? book.studentId : "").append(",");
+                sb.append(book.issueDate != null ? book.issueDate : "").append(",");
+                sb.append(book.returnDate != null ? book.returnDate : "").append("\n");
             }
+            writer.write(sb.toString());
+            System.out.println("Books exported to CSV file: " + FILENAME);
         } catch (IOException e) {
-            System.out.println("Error saving data to file: " + e.getMessage());
+            System.out.println("An error occurred while exporting books to CSV: " + e.getMessage());
         }
     }
 
-    private void loadFromCsv() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(CSV_FILE_NAME))) {
-            String line = reader.readLine();
+    public void loadBooksFromCSV() {
+        books.clear();
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILENAME))) {
+            String line = reader.readLine(); // Skip header
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",", -1);
-                Book book = new Book(parts[0].replace("\"", ""), parts[1].replace("\"", ""), parts[2].replace("\"", ""));
-                book.isIssued = Boolean.parseBoolean(parts[3].replace("\"", ""));
-                book.studentName = parts[4].replace("\"", "").isEmpty() ? null : parts[4].replace("\"", "");
-                book.studentId = parts[5].replace("\"", "").isEmpty() ? null : parts[5].replace("\"", "");
-                book.issueDate = parts[6].replace("\"", "").isEmpty() ? null : parts[6].replace("\"", "");
-                book.returnDate = parts[7].replace("\"", "").isEmpty() ? null : parts[7].replace("\"", "");
+                Book book = new Book(parts[0], parts[1], parts[2]);
+                book.isIssued = Boolean.parseBoolean(parts[3]);
+                book.studentName = parts[4].isEmpty() ? null : parts[4];
+                book.studentId = parts[5].isEmpty() ? null : parts[5];
+                book.issueDate = parts[6].isEmpty() ? null : parts[6];
+                book.returnDate = parts[7].isEmpty() ? null : parts[7];
                 books.add(book);
-                bookMap.put(book.name.toLowerCase(), book);
             }
         } catch (FileNotFoundException e) {
             System.out.println("No previous data found. Starting fresh.");
         } catch (IOException e) {
-            System.out.println("Error loading data from file: " + e.getMessage());
+            System.out.println("An error occurred while loading books: " + e.getMessage());
+        }
+    }
+
+    private boolean login() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("===== Admin Login =====");
+        System.out.print("Enter Username: ");
+        String username = sc.nextLine();
+        System.out.print("Enter Password: ");
+        String password = sc.nextLine();
+
+        if (username.equals(ADMIN_USERNAME) && password.equals(ADMIN_PASSWORD)) {
+            System.out.println("Login Successful!");
+            return true;
+        } else {
+            System.out.println("Invalid Credentials! Access Denied.");
+            return false;
+        }
+    }
+
+    private void showAvailableBooks() {
+        System.out.println("\nAvailable Books:");
+        System.out.println("Name | Author | Genre");
+        System.out.println("---------------------");
+
+        boolean hasAvailableBooks = false;
+
+        for (Book book : books) {
+            if (!book.isIssued) {
+                System.out.println(book.name + " | " + book.author + " | " + book.genre);
+                hasAvailableBooks = true;
+            }
+        }
+
+        if (!hasAvailableBooks) {
+            System.out.println("No books are currently available.");
         }
     }
 
     public static void main(String[] args) {
         LibraryManagementSystem library = new LibraryManagementSystem();
-        library.loadFromCsv();
         Scanner sc = new Scanner(System.in);
 
+        if (!library.login()) {
+            System.out.println("Exiting system...");
+            return;
+        }
+
         while (true) {
-            System.out.println("\n1) Add Book");
-            System.out.println("2) Issue Book");
-            System.out.println("3) Return Book");
-            System.out.println("4) Display Books");
-            System.out.println("5) Exit");
+            System.out.println("\nLibrary Management System");
+            System.out.println("1. Add Book");
+            System.out.println("2. Issue Book");
+            System.out.println("3. Return Book");
+            System.out.println("4. Show All Books");
+            System.out.println("5. Show Available Books");
+            System.out.println("6. Exit");
             System.out.print("Choose an option: ");
 
             int choice = sc.nextInt();
@@ -233,6 +240,9 @@ public class LibraryManagementSystem {
                     library.displayBooks();
                     break;
                 case 5:
+                    library.showAvailableBooks();
+                    break;
+                case 6:
                     System.out.println("Exiting...");
                     sc.close();
                     return;
