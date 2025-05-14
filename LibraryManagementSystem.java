@@ -34,6 +34,9 @@ class Book {
         if (isIssued) {
             this.isIssued = false;
             this.returnDate = new Date().toString();
+            this.studentName = null;
+            this.studentId = null;
+            this.issueDate = null;
             System.out.println("Book returned successfully.");
         } else {
             System.out.println("Book is not issued!");
@@ -74,6 +77,11 @@ public class LibraryManagementSystem {
     }
 
     public void issueBook(String bookName, String studentName, String studentId) {
+        if (countBooksIssuedToStudent(studentId) >= 5) {
+            System.out.println("Student has already borrowed 5 books. Cannot issue more.");
+            return;
+        }
+
         Book book = findBook(bookName);
         if (book != null && !book.isIssued) {
             book.issueBook(studentName, studentId);
@@ -94,12 +102,27 @@ public class LibraryManagementSystem {
     }
 
     public void displayBooks() {
+        System.out.println("\nAll Books in Library:");
+
         if (books.isEmpty()) {
             System.out.println("No books are available.");
             return;
         }
+
+        System.out.printf("%-35s %-20s %-25s %-10s %-20s %-10s %-30s %-30s\n",
+                "Book Name", "Author", "Genre", "Issued", "Student Name", "ID", "Issue Date", "Return Date");
+        System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------");
+
         for (Book book : books) {
-            book.displayBook();
+            System.out.printf("%-35s %-20s %-25s %-10s %-20s %-10s %-30s %-30s\n",
+                    book.name,
+                    book.author,
+                    book.genre,
+                    book.isIssued ? "Yes" : "No",
+                    book.studentName != null ? book.studentName : "-",
+                    book.studentId != null ? book.studentId : "-",
+                    book.issueDate != null ? book.issueDate : "-",
+                    book.returnDate != null ? book.returnDate : "-");
         }
     }
 
@@ -156,31 +179,41 @@ public class LibraryManagementSystem {
 
     private boolean login() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("===== Admin Login =====");
+        System.out.println("\n===== Admin Login =====");
         System.out.print("Enter Username: ");
         String username = sc.nextLine();
         System.out.print("Enter Password: ");
         String password = sc.nextLine();
 
         if (username.equals(ADMIN_USERNAME) && password.equals(ADMIN_PASSWORD)) {
-            System.out.println("Login Successful!");
+            System.out.println("\nLogin Successful!");
             return true;
         } else {
-            System.out.println("Invalid Credentials! Access Denied.");
+            System.out.println("\nInvalid Credentials! Access Denied.");
             return false;
         }
     }
 
+    private int countBooksIssuedToStudent(String studentId) {
+        int count = 0;
+        for (Book book : books) {
+            if (book.isIssued && studentId.equals(book.studentId)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     private void showAvailableBooks() {
         System.out.println("\nAvailable Books:");
-        System.out.println("Name | Author | Genre");
-        System.out.println("---------------------");
+        System.out.printf("%-35s %-20s %-25s\n", "Book Name", "Author", "Genre");
+        System.out.println("---------------------------------------------------------------------");
 
         boolean hasAvailableBooks = false;
 
         for (Book book : books) {
             if (!book.isIssued) {
-                System.out.println(book.name + " | " + book.author + " | " + book.genre);
+                System.out.printf("%-35s %-20s %-25s\n", book.name, book.author, book.genre);
                 hasAvailableBooks = true;
             }
         }
@@ -190,17 +223,9 @@ public class LibraryManagementSystem {
         }
     }
 
-    public static void main(String[] args) {
-        LibraryManagementSystem library = new LibraryManagementSystem();
-        Scanner sc = new Scanner(System.in);
-
-        if (!library.login()) {
-            System.out.println("Exiting system...");
-            return;
-        }
-
+    public void adminMenu(Scanner sc) {
         while (true) {
-            System.out.println("\nLibrary Management System");
+            System.out.println("\nLibrary Management System - Admin Panel");
             System.out.println("1. Add Book");
             System.out.println("2. Issue Book");
             System.out.println("3. Return Book");
@@ -214,41 +239,104 @@ public class LibraryManagementSystem {
 
             switch (choice) {
                 case 1:
-                    System.out.print("Enter Book Name: ");
+                    System.out.print("\nEnter Book Name: ");
                     String name = sc.nextLine();
                     System.out.print("Enter Author: ");
                     String author = sc.nextLine();
                     System.out.print("Enter Genre: ");
                     String genre = sc.nextLine();
-                    library.addBook(name, author, genre);
+                    addBook(name, author, genre);
                     break;
                 case 2:
-                    System.out.print("Enter Book Name to Issue: ");
+                    System.out.print("\nEnter Book Name to Issue: ");
                     String bookNameIssue = sc.nextLine();
                     System.out.print("Enter Student Name: ");
                     String studentName = sc.nextLine();
                     System.out.print("Enter Student ID: ");
                     String studentId = sc.nextLine();
-                    library.issueBook(bookNameIssue, studentName, studentId);
+                    issueBook(bookNameIssue, studentName, studentId);
                     break;
                 case 3:
-                    System.out.print("Enter Book Name to Return: ");
+                    System.out.print("\nEnter Book Name to Return: ");
                     String bookNameReturn = sc.nextLine();
-                    library.returnBook(bookNameReturn);
+                    returnBook(bookNameReturn);
                     break;
                 case 4:
-                    library.displayBooks();
+                    displayBooks();
                     break;
                 case 5:
-                    library.showAvailableBooks();
+                    showAvailableBooks();
                     break;
                 case 6:
-                    System.out.println("Exiting...");
-                    sc.close();
+                    System.out.println("\nExiting Admin Panel...");
                     return;
                 default:
-                    System.out.println("Invalid choice. Please choose a valid option.");
+                    System.out.println("\nInvalid choice. Please choose a valid option.");
             }
         }
+    }
+
+    public void studentPortal(Scanner sc) {
+        while (true) {
+            System.out.println("\nLibrary Management System - Student Portal");
+            System.out.println("1. View Available Books");
+            System.out.println("2. Search Book by Name");
+            System.out.println("3. Exit");
+            System.out.print("Choose an option: ");
+
+            int choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+                case 1:
+                    showAvailableBooks();
+                    break;
+                case 2:
+                    System.out.print("\nEnter Book Name to Search: ");
+                    String bookName = sc.nextLine();
+                    Book book = findBook(bookName);
+                    if (book != null) {
+                        book.displayBook();
+                    } else {
+                        System.out.println("Book not found.");
+                    }
+                    break;
+                case 3:
+                    System.out.println("\nExiting Student Portal...");
+                    return;
+                default:
+                    System.out.println("\nInvalid choice. Please choose a valid option.");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        LibraryManagementSystem library = new LibraryManagementSystem();
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("\nWelcome to Library Management System");
+        System.out.println("1. Admin Login");
+        System.out.println("2. Student Portal");
+        System.out.print("Choose your role: ");
+
+        int roleChoice = sc.nextInt();
+        sc.nextLine();
+
+        switch (roleChoice) {
+            case 1:
+                if (!library.login()) {
+                    System.out.println("Exiting system...");
+                    return;
+                }
+                library.adminMenu(sc);
+                break;
+            case 2:
+                library.studentPortal(sc);
+                break;
+            default:
+                System.out.println("Invalid role. Exiting...");
+        }
+
+        sc.close();
     }
 }
