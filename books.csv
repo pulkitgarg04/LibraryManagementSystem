@@ -1,24 +1,28 @@
-Book Name,Author,Genre,Issued,Student Name,Student ID,Issue Date,Return Date
-1984,George Orwell,Dystopian,false,,,,
-A Tale of Two Cities,Charles Dickens,Historical,false,,,,
-Asan Joban Rute Marna,Shiv Kumar Batalvi,Poetry,false,,,,
-Brave New World,Aldous Huxley,Dystopian,false,,,,
-Crime and Punishment,Fyodor Dostoevsky,Crime,false,,,,
-Don Quixote,Miguel de Cervantes,Classic,true,Pulkit Garg,2310990940,Thu May 08 17:21:26 IST 2025,
-Harry Potter and the Sorcerer,J.K. Rowling,Fantasy,false,,,,
-Jane Eyre,Charlotte Brontë,Fiction,false,,,,
-Les Misérables,Victor Hugo,Historical,false,,,,
-Moby Dick,Herman Melville,Adventure,false,,,,
-Pride and Prejudice,Jane Austen,Romance,false,,,,
-Soch,Bhavjot Singh,Poetry,true,Parth Handa,2310990927,Wed May 14 11:21:48 IST 2025,
-Sunehade,Shiv Kumar Batalvi,Poetry,false,,,,Wed May 14 09:55:58 IST 2025
-The Alchemist,Paulo Coelho,Fantasy,false,,,,
-The Catcher in the Rye,J.D. Salinger,Fiction,false,,,,
-The Great Gatsby,F. Scott Fitzgerald,Fiction,false,,,,
-The Hobbit,J.R.R. Tolkien,Fantasy,false,,,,
-The Lord of the Rings,J.R.R. Tolkien,Fantasy,false,,,,
-The Odyssey,Homer,Classic,false,,,,
-The Road,Cormac McCarthy,PostApocalytic,false,,,,Wed May 14 11:22:02 IST 2025
-To Kill a Mockingbird,Harper Lee,Fiction,false,,,,
-War and Peace,Leo Tolstoy,Historical,false,,,,
-Wuthering Heights,Emily Brontë,Gothic,false,,,,
+ID,Book Name,Author,Genre,Quantity,Issued,Student Name,Student ID,Issue Date,Return Date
+B5,1984,George Orwell,Fiction,4,true,Pulkit Garg,0940,Wed May 14 20:57:14 IST 2025,
+B19,A Brief History of Time,Stephen Hawking,Science,5,false,,,,
+B3,Atomic Habits,James Clear,Self-Help,6,false,,,,
+B14,Becoming,Michelle Obama,Biography,4,false,,,,
+B24,Brave New World,Aldous Huxley,Fiction,4,false,,,,
+B10,Clean Code,Robert C. Martin,Programming,4,false,,,,
+B18,Cracking the Coding Interview,Gayle Laakmann,Programming,3,true,Manreet,0937,2025-04-10,2025-04-24
+B12,Data Structures and Algorithms,Mark Allen Weiss,Programming,3,false,,,,
+B13,Deep Work,Cal Newport,Productivity,5,true,Parth Handa,0927,2025-04-07,2025-04-21
+B21,Homo Deus,Yuval Noah Harari,History,6,false,,,,
+B2,Introduction to Algorithms,Cormen,Programming,3,false,,,,
+B26,Mein Kampf,Adolf Hitler,Autobiography,3,false,,,,
+B6,Python Crash Course,Eric Matthes,Programming,3,true,Parth Handa,0927,2025-04-03,2025-04-17
+B8,Rich Dad Poor Dad,Robert Kiyosaki,Finance,7,false,,,,
+B9,Sapiens,Yuval Noah Harari,History,8,true,Pulkit Garg,0940,2025-04-05,2025-04-19
+B17,The Art of War,Sun Tzu,Philosophy,4,false,,,,
+B27,The C Guide,Pulkit Garg,Programming,4,false,,,,
+B15,The Catcher in the Rye,J.D. Salinger,Fiction,5,false,,,,
+B1,The Complete Reference,Henbert,Programming,5,false,,,,
+B11,The Great Gatsby,F. Scott Fitzgerald,Fiction,6,false,,,,
+B20,The Lean Startup,Eric Ries,Entrepreneurship,5,false,,,,Wed May 14 21:14:12 IST 2025
+B25,The Power of Habit,Charles Duhigg,Self-Help,6,false,,,,
+B7,The Pragmatic Programmer,Andrew Hunt,Programming,2,false,,,,
+B22,The Subtle Art of Not,Mark Manson,Self-Help,5,false,,,,
+B16,Think and Grow Rich,Napoleon Hill,Finance,7,false,,,,
+B4,To Kill a Mockingbird,Harper Lee,Fiction,5,false,,,,Wed May 14 21:04:05 IST 2025
+B23,Zero to One,Peter Thiel,Entrepreneurship,5,false,,,,
