@@ -4,16 +4,18 @@ B19,A Brief History of Time,Stephen Hawking,Science,5,false,,,,
 B3,Atomic Habits,James Clear,Self-Help,6,false,,,,
 B14,Becoming,Michelle Obama,Biography,4,false,,,,
 B24,Brave New World,Aldous Huxley,Fiction,4,false,,,,
+B28,C in Depth,Ravi kumar,Programming,4,false,,,,
 B10,Clean Code,Robert C. Martin,Programming,4,false,,,,
-B18,Cracking the Coding Interview,Gayle Laakmann,Programming,3,true,Manreet,0937,2025-04-10,2025-04-24
+B18,Cracking the Coding Interview,Gayle Laakmann,Programming,3,true,Manreet,0937,Wed May 5 10:54:14 IST 2025,Wed May 1 20:57:14 IST 2025
 B12,Data Structures and Algorithms,Mark Allen Weiss,Programming,3,false,,,,
-B13,Deep Work,Cal Newport,Productivity,5,true,Parth Handa,0927,2025-04-07,2025-04-21
+B13,Deep Work,Cal Newport,Productivity,6,false,,,,Thu May 15 10:03:30 IST 2025
 B21,Homo Deus,Yuval Noah Harari,History,6,false,,,,
 B2,Introduction to Algorithms,Cormen,Programming,3,false,,,,
+B29,Java,Ravi Sir,Programming,1,true,Pulkit,0940,Thu May 15 11:49:23 IST 2025,
 B26,Mein Kampf,Adolf Hitler,Autobiography,3,false,,,,
-B6,Python Crash Course,Eric Matthes,Programming,3,true,Parth Handa,0927,2025-04-03,2025-04-17
+B6,Python Crash Course,Eric Matthes,Programming,3,true,Parth Handa,0927,Wed May 15 8:57:14 IST 2025,Wed May 10 20:57:14 IST 2025
 B8,Rich Dad Poor Dad,Robert Kiyosaki,Finance,7,false,,,,
-B9,Sapiens,Yuval Noah Harari,History,8,true,Pulkit Garg,0940,2025-04-05,2025-04-19
+B9,Sapiens,Yuval Noah Harari,History,8,false,,,,Thu May 15 11:49:49 IST 2025
 B17,The Art of War,Sun Tzu,Philosophy,4,false,,,,
 B27,The C Guide,Pulkit Garg,Programming,4,false,,,,
 B15,The Catcher in the Rye,J.D. Salinger,Fiction,5,false,,,,
